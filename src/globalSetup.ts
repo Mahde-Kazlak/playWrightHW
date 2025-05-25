@@ -14,6 +14,7 @@ async function globalSetup(config: FullConfig) {
   await page.locator('#login-button').click();
   await page.waitForURL(/inventory.html/);
   await page.context().storageState({ path: 'storageState.json' });
+  
   await browser.close();
 }
 
