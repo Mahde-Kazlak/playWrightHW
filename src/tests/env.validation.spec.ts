@@ -1,4 +1,5 @@
 import { test } from '@playwright/test';
+import './setupTest';
 
 test('Validate environment variables', () => {
   if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_PASSWORD) {

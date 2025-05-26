@@ -10,37 +10,23 @@ export default defineConfig({
   reporter: 'html',
   use: {
     launchOptions: {
-      slowMo: 1000, // Correct placement
-      headless: false // Optional: keep browser open
+      slowMo: 1000,
+      headless: false
     },
     actionTimeout: 10000,
     baseURL: 'https://www.saucedemo.com',
     trace: 'on-first-retry',
-    storageState: 'storageState.json',
     viewport: { width: 1920, height: 1080 }
-    
   },
-projects: [
-  {
-    name: 'chromium',
-    use: { 
-      ...devices['Desktop Chrome'],
-      launchOptions: {
-        slowMo: 500,
-        headless: false
-      }
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
-  },
-  {
-    name: 'firefox',
-    use: { 
-      ...devices['Desktop Firefox'],
-      launchOptions: {
-        slowMo: 1000, 
-        headless: false
-      }
-    },
-  }
-],
-  globalSetup: require.resolve('./src/globalSetup.ts'),
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+      workers: 1
+    }
+  ]
 });

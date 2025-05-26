@@ -13,23 +13,28 @@ export class InventoryPage {
     return this.page.locator(`[data-test="${actionPrefix}-${kebabName}"]`);
   }
 
-async addToCart(itemName: string) {
-  const button = this.getCartButton(itemName, 'add');
-  await button.waitFor({ state: 'visible' });
-  await button.click();
-  await this.page.waitForLoadState('networkidle');
-}
-
-  async removeFromCart(itemName: string) {
-    await this.getCartButton(itemName, 'remove').click();
+  async addToCart(itemName: string) {
+    const button = this.getCartButton(itemName, 'add');
+    await button.waitFor({ state: 'visible', timeout: 15000 });
+    await this.page.waitForTimeout(500);
+    await button.click({ timeout: 15000 });
   }
 
-async sortProducts(option: 'az' | 'za' | 'lohi' | 'hilo') {
-  const sortDropdown = this.page.locator('[data-test="product-sort-container"]');
-  await sortDropdown.waitFor({ state: 'visible', timeout: 15000 });
-  await sortDropdown.selectOption(option);
-  await this.page.waitForTimeout(1000);
-}
+  async removeFromCart(itemName: string) {
+    const button = this.getCartButton(itemName, 'remove');
+    await button.waitFor({ state: 'visible', timeout: 15000 });
+    await this.page.waitForTimeout(500);
+    await button.click({ timeout: 15000 });
+  }
+
+  async sortProducts(option: 'az' | 'za' | 'lohi' | 'hilo') {
+    const sortDropdown = this.page.locator('[data-test="product-sort-container"]');
+    await sortDropdown.waitFor({ state: 'visible', timeout: 15000 });
+    await sortDropdown.selectOption(option);
+    if (!this.page.isClosed()) {
+      await this.page.waitForTimeout(1000);
+    }
+  }
 
   async getProductNames() {
     return this.page.locator('.inventory_item_name').allTextContents();
