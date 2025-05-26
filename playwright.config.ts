@@ -6,13 +6,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  globalSetup: require.resolve('./src/globalSetup'),
   use: {
-    launchOptions: {
-      slowMo: 1000,
-      headless: false
-    },
     actionTimeout: 10000,
     baseURL: 'https://www.saucedemo.com',
     trace: 'on-first-retry',
@@ -21,11 +17,19 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'storageState-chromium.json',
+        launchOptions: { slowMo: 1000, headless: false }
+      }
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'storageState-firefox.json',
+        launchOptions: { slowMo: 1000, headless: false }
+      },
       workers: 1
     }
   ]

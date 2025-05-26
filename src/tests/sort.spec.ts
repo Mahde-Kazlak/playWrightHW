@@ -1,6 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
 import { InventoryPage } from '../pages/InventoryPage';
-import { LoginPage } from '../pages/LoginPage';
 import './setupTest';
 
 test.describe('Sort Feature', () => {
@@ -9,10 +8,7 @@ test.describe('Sort Feature', () => {
 
   test.beforeEach(async ({ page: testPage }) => {
     page = testPage;
-    const loginPage = new LoginPage(page);
-    await loginPage.navigate();
-    await loginPage.login(process.env.SAUCE_USERNAME!, process.env.SAUCE_PASSWORD!);
-    await page.waitForSelector('.inventory_item', { timeout: 10000 });
+    await page.goto('/inventory.html');
     inventoryPage = new InventoryPage(page);
   });
 
